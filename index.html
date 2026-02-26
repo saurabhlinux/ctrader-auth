@@ -1,1 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>cTrader Authentication</title>
+</head>
+<body>
+    <h2>Processing cTrader Authentication...</h2>
 
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+
+        if (!code) {
+            document.body.innerHTML = "<h3>No authorization code received.</h3>";
+        } else {
+            fetch("https://YOUR_BACKEND_SERVER.com/exchange", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.body.innerHTML =
+                    "<h3>Authentication successful!</h3><p>You can close this page.</p>";
+            })
+            .catch(err => {
+                document.body.innerHTML =
+                    "<h3>Error sending code to backend.</h3>";
+            });
+        }
+    </script>
+</body>
+</html>
